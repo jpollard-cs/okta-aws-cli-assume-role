@@ -31,6 +31,10 @@ import com.okta.sdk.models.auth.AuthResult;
 import com.okta.sdk.models.factors.Factor;
 import com.okta.tools.aws.settings.Configuration;
 import com.okta.tools.aws.settings.Credentials;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.Options;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -78,6 +82,22 @@ public class awscli {
     private static final Logger logger = LogManager.getLogger(awscli.class);
 
     public static void main(String[] args) throws Exception {
+
+//        // create the command line parser
+//        CommandLineParser parser = new DefaultParser();
+//
+//        // create the Options
+//        Options options = new Options();
+//        options.addOption( "e", false, "" );
+//
+//        // parse the command line arguments
+//        CommandLine line = parser.parse( options, args );
+//
+//        // validate that block-size has been set
+//        if( line.hasOption( "e" ) ) {
+//        } else {
+//        }
+
         extractCredentials();
 
         // Step #1: Initiate the authentication and capture the SAML assertion.
@@ -632,14 +652,13 @@ public class awscli {
         credentialsProfileName = profileNameFormat.format(args);
 
         //update the credentials file with the unique profile name
-        UpdateCredentialsFile(credentialsProfileName, awsAccessKey, awsSecretKey, awsSessionToken);
+        updateCredentialsFile(credentialsProfileName, awsAccessKey, awsSecretKey, awsSessionToken);
 
         return credentialsProfileName;
     }
 
-    private static void UpdateCredentialsFile(String profileName, String awsAccessKey, String awsSecretKey, String awsSessionToken)
+    private static void updateCredentialsFile(String profileName, String awsAccessKey, String awsSecretKey, String awsSessionToken)
             throws IOException {
-        //TODO: needs to be tested on Windows
         final String credentialsLocation = System.getProperty("user.home") + "/.aws/credentials";
         try (final Reader reader = new File(credentialsLocation).isFile() ?
                 new FileReader(credentialsLocation) : new StringReader("")) {

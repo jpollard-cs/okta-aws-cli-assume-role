@@ -1,1 +1,1 @@
-java -classpath .:oktaawscli.jar com.okta.tools.awscli
+java -classpath .:oktaawscli.jar com.okta.tools.awscli $@

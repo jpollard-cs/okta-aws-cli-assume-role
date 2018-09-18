@@ -37,7 +37,10 @@ public class Credentials extends Settings {
      */
     public void addOrUpdateProfile(String name, String awsAccessKey, String awsSecretKey, String awsSessionToken) {
         final Profile.Section awsProfile = settings.get(name) != null ? settings.get(name) : settings.add(name);
+        final Profile.Section defaultAwsProfile = settings.get(DEFAULTPROFILENAME) != null ? settings.get(DEFAULTPROFILENAME) : settings.add(DEFAULTPROFILENAME);
         writeCredentialsProfile(awsProfile, awsAccessKey, awsSecretKey, awsSessionToken);
+        // for SDK compatibility whatever the last logged in profile is we will set this to the default
+        writeCredentialsProfile(defaultAwsProfile, awsAccessKey, awsSecretKey, awsSessionToken);
     }
 
     /**

@@ -37,12 +37,11 @@ public class Configuration extends Settings {
         // This should be prefixed with "profile ".
         final String profileName = PROFILE_PREFIX + name;
 
-        // Determine whether this is a new AWS configuration file. If it is, we'll set the default
-        // profile to this profile.
-        final boolean newConfig = settings.isEmpty();
-        if (newConfig) {
-            writeConfigurationProfile(settings.add(DEFAULTPROFILENAME), name, roleToAssume);
-        }
+        final Profile.Section defaultAwsProfile = settings.get(DEFAULTPROFILENAME) != null
+                ? settings.get(DEFAULTPROFILENAME)
+                : settings.add(DEFAULTPROFILENAME);
+        // for SDK compatibility whatever the last logged in profile is we will set this to the default
+        writeConfigurationProfile(defaultAwsProfile, name, roleToAssume);
 
         // Write the new profile data
         final Profile.Section awsProfile = settings.get(profileName) != null
