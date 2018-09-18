@@ -659,6 +659,7 @@ public class awscli {
 
     private static void updateCredentialsFile(String profileName, String awsAccessKey, String awsSecretKey, String awsSessionToken)
             throws IOException {
+        //TODO: needs to be tested on Windows
         final String credentialsLocation = System.getProperty("user.home") + "/.aws/credentials";
         try (final Reader reader = new File(credentialsLocation).isFile() ?
                 new FileReader(credentialsLocation) : new StringReader("")) {
